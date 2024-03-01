@@ -1,0 +1,6 @@
+messages:
+  start: "Привет, я Лиза. Твоя лучшая подружка.\nГовори чего хочешь..."
+
+keyboard:
+  add_profile: "Меню"
+  edit_profile: "..."
