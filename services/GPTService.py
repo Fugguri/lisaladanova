@@ -29,6 +29,7 @@ class GPTService:
         self.PROMT = self.__load_document_text(self.promt_url)
         self.base_message_template = [
             {"role": "system", "content": self.PROMT}]
+        self.users_message = dict()
 
     def __load_document_text(self, url: str) -> str:
         # Extract the document ID from the URL
