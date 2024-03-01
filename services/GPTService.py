@@ -42,7 +42,7 @@ class GPTService:
             f'https://docs.google.com/document/d/{doc_id}/export?format=txt')
         response.raise_for_status()
         text = response.text
-
+        print(text)
         return text
 
     def get_user_user_history(self, user_id):

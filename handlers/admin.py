@@ -48,6 +48,8 @@ async def commands(callback: types.CallbackQuery, state: FSMContext, callback_da
         # save_statistic(users)
         return
     if command == 'update_promt':
+        markup = await kb.back_kb("admin")
+
         gpt.update_promt()
         text = "Промт обновлен"
 
