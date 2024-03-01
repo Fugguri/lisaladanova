@@ -32,6 +32,8 @@ class Keyboards:
                callback_data=self.admin_cd.new(command="mail")))
         kb.add(InlineKeyboardButton(text="Статистика",
                callback_data=self.admin_cd.new(command="statistic")))
+        kb.add(InlineKeyboardButton(text="Обновить промт",
+               callback_data=self.admin_cd.new(command="update_promt")))
         kb.add(InlineKeyboardButton(text="Назад",
                callback_data=self.back_cd.new(role='user')))
 

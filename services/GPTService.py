@@ -13,7 +13,7 @@ class GPTService:
     def __init__(self) -> None:
         self.config = dotenv_values(".env")
 
-        promt_url = self.config["PROMT_URL"]
+        self.promt_url = self.config["PROMT_URL"]
         proxy = self.config["proxy"]
         api_key = self.config['openAi']
         http_transport = httpx.HTTPTransport(local_address="0.0.0.0")
@@ -23,9 +23,12 @@ class GPTService:
 
         self.users_message = dict()
 
-        PROMT = self.__load_document_text(promt_url)
+        self.update_promt()
 
-        self.base_message_template = [{"role": "system", "content": PROMT}]
+    def update_promt(self):
+        self.PROMT = self.__load_document_text(self.promt_url)
+        self.base_message_template = [
+            {"role": "system", "content": self.PROMT}]
 
     def __load_document_text(self, url: str) -> str:
         # Extract the document ID from the URL

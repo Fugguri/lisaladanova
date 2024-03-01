@@ -9,6 +9,7 @@ from database import Database
 from database.Database import UserManager
 from config.config import Config
 from keyboards.keyboards import Keyboards
+from services import gpt
 
 
 async def admin(message: types.Message, state=FSMContext):
@@ -46,6 +47,9 @@ async def commands(callback: types.CallbackQuery, state: FSMContext, callback_da
         os.remove(path)
         # save_statistic(users)
         return
+    if command == 'update_promt':
+        gpt.update_promt()
+        text = "Промт обновлен"
 
     await callback.message.answer(text, reply_markup=markup)
     # await callback.message.delete()
