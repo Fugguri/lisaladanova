@@ -28,6 +28,7 @@ class User(Base):
     lastname = Column(String(100))
     last_activity = Column(DateTime, default=datetime.datetime.utcnow)
     # subscription_end = Column(DateTime, default=datetime.datetime.utcnow)
+    role = Column(String(100), default="user")
 
     def __repr__(self):
         return f"<User(telegram_id={self.telegram_id}, username='{self.username}', fullname='{self.firstname} {self.lastname}'),subscription_end='{self.subscription_end}')>"
