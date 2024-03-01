@@ -17,8 +17,9 @@ async def admin(message: types.Message, state=FSMContext):
     kb: Keyboards = ctx_data.get()['keyboards']
     db: UserManager = ctx_data.get()['db']
     markup = await kb.admin_kb()
-
-    await message.answer("Выберите пункт меню", reply_markup=markup)
+    user = db.get_user_by_telegram_id(message.from_user.id)
+    if user.role == "admin":
+        await message.answer("Выберите пункт меню", reply_markup=markup)
 
 
 def save_statistic(data):
