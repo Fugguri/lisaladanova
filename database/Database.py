@@ -19,6 +19,7 @@ Base = declarative_base()
 
 
 class User(Base):
+
     __tablename__ = 'Users'
 
     id = Column(Integer, primary_key=True)
@@ -31,7 +32,7 @@ class User(Base):
     role = Column(String(100), default="user")
 
     def __repr__(self):
-        return f"<User(telegram_id={self.telegram_id}, username='{self.username}', fullname='{self.firstname} {self.lastname}'),subscription_end='{self.subscription_end}')>"
+        return f"<User(telegram_id={self.telegram_id}, username='{self.username}', fullname='{self.firstname} {self.lastname}'))>"
 
 
 # Создаем таблицу в базе данных
@@ -59,18 +60,11 @@ class UserManager:
         with Session() as session:
             all_users = session.query(User).all()
             return pd.read_sql_table("Users", con=session.bind)
-            return all_users
 
-    def get_user_by_telegram_id(self, telegram_id: int):
+    def get_user_by_telegram_id(self, telegram_id: int | str):
         with Session() as session:
             user = session.query(User).filter_by(
                 telegram_id=telegram_id).first()
-        return user
-
-    def get_user_by_contract_id(self, contract_id: str):
-        with Session() as session:
-            user = session.query(User).filter_by(
-                contract_id=contract_id).first()
         return user
 
     def delete_user(self, telegram_id: int):

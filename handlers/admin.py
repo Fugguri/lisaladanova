@@ -17,7 +17,9 @@ async def admin(message: types.Message, state=FSMContext):
     kb: Keyboards = ctx_data.get()['keyboards']
     db: UserManager = ctx_data.get()['db']
     markup = await kb.admin_kb()
-    user = db.get_user_by_telegram_id(message.from_user.id)
+    print(message.from_user.id)
+    user = db.get_user_by_telegram_id(str(message.from_user.id))
+    print(user)
     if user.role == "admin":
         await message.answer("Выберите пункт меню", reply_markup=markup)
 
