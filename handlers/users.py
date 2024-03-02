@@ -9,6 +9,7 @@ from database.Database import UserManager
 from config.config import Config
 from keyboards.keyboards import Keyboards
 from .admin import admin
+from utils import speech_to_text
 
 
 async def start(message: types.Message, state: FSMContext):
@@ -26,11 +27,24 @@ async def start(message: types.Message, state: FSMContext):
 async def create_response(message: types.Message, state: FSMContext):
     cfg: Config = ctx_data.get()['config']
     kb: Keyboards = ctx_data.get()['keyboards']
+
+    wait = await message.answer("Набираю сообщение ответ…")
+
+    if message.content_type == types.ContentType.VOICE:
+        path = f"voice/{message.voice.file_id}.ogg"
+        await message.voice.download(path)
+        text = await speech_to_text(path)
+
+    elif message.content_type == types.ContentType.TEXT:
+        text = message.text
+    message.text = text
     answer = await gpt.create_answer(message)
     await message.answer(answer)
+    await wait.delete()
 
 
 def register_user_handlers(dp: Dispatcher, kb: Keyboards):
 
     dp.register_message_handler(start, commands=["start"], state="*")
-    dp.register_message_handler(create_response, state="*")
+    dp.register_message_handler(create_response, content_types=[
+                                types.ContentType.TEXT, types.ContentType.VOICE], state="*")
