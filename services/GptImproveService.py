@@ -139,7 +139,7 @@ class GptImprove:
         Функция возвращает саммаризированный текст диалога.
         """
         messages = [
-            {"role": "system", "content": self.summarizer,
+            {"role": "system", "content": self.summarizer},
             {"role": "user", "content": "Саммаризируй следующий диалог консультанта и пользователя, тебе запрещено удалять из саммаризации имя пользователя: " +
                 " ".join(dialog)}
         ]
