@@ -31,7 +31,7 @@ async def main():
     logging.basicConfig(
         level=logging.INFO,
         format=u'%(filename)s:%(lineno)d #%(levelname)-8s [%(asctime)s] - %(name)s - %(message)s',
-        # filename="logs.log"
+        filename="logs.log"
     )
     logger.info("Starting bot")
     print("Starting bot")

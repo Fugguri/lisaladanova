@@ -4,7 +4,7 @@ from aiogram import Dispatcher
 from aiogram.dispatcher.handler import ctx_data
 from aiogram.dispatcher import FSMContext
 
-from services import gpt
+from services import gpt, gpt_v2
 from database.Database import UserManager
 from config.config import Config
 from keyboards.keyboards import Keyboards
@@ -39,12 +39,19 @@ async def create_response(message: types.Message, state: FSMContext):
         text = message.text
     message.text = text
     answer = await gpt.create_answer(message)
+    answer = await gpt_v2.create_answer(message.from_user.id, text)
     await message.answer(answer)
     await wait.delete()
+
+
+async def re(message: types.Message, state: FSMContext):
+    gpt_v2.reload_settings()
+    await message.answer("done")
 
 
 def register_user_handlers(dp: Dispatcher, kb: Keyboards):
 
     dp.register_message_handler(start, commands=["start"], state="*")
+    dp.register_message_handler(re, commands=["re"], state="*")
     dp.register_message_handler(create_response, content_types=[
                                 types.ContentType.TEXT, types.ContentType.VOICE], state="*")

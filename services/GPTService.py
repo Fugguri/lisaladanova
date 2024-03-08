@@ -13,7 +13,6 @@ class GPTService:
     def __init__(self) -> None:
         self.config = dotenv_values(".env")
 
-        self.promt_url = self.config["PROMT_URL"]
         proxy = self.config["proxy"]
         api_key = self.config['openAi']
         http_transport = httpx.HTTPTransport(local_address="0.0.0.0")
@@ -21,9 +20,11 @@ class GPTService:
 
         self.openai = OpenAI(api_key=api_key, http_client=http_client)
 
+        self.promt_url = self.config["PROMT_URL"]
         self.users_message = dict()
 
         self.update_promt()
+        self.token_sum = 0
 
     def update_promt(self):
         self.PROMT = self.__load_document_text(self.promt_url)
